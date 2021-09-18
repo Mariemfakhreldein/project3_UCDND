@@ -1,6 +1,6 @@
 language: node_js
 node_js:
-  - 12
+  - 13
 
 services:
   - docker
@@ -21,8 +21,6 @@ script:
   - docker tag udagram-api-user mavis8d/udagram-api-user:v1
   - docker build -t udagram-frontend ./udagram-frontend
   - docker tag udagram-frontend mavis8d/udagram-frontend:v1
-  - docker build -t udagram-reverseproxy ./udagram-reverseproxy
-  - docker tag udagram-reverseproxy mavis8d/udagram-reverseproxy:v1
 
 # Tasks to perform after the process is successful. Formatting the Docker username and password as below enables you to programmatically log in without having the password exposed in logs.
 after_success:
@@ -30,4 +28,3 @@ after_success:
   - docker push mavis8d/udagram-api-feed:v1
   - docker push mavis8d/udagram-api-user:v1
   - docker push mavis8d/udagram-frontend:v1
-  - docker push mavis8d/udagram-reverseproxy:v1
