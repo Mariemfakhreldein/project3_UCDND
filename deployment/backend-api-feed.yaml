@@ -1,0 +1,22 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: backend-api-feed
+  labels:
+    app: backend-api-feed
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: backend-api-feed
+  template:
+    metadata:
+      labels:
+        app: backend-api-feed
+    spec:
+      containers:
+      - name: backend-api-feed
+        image: mavis8d/udagram-api-feed
+        ports:
+        - containerPort: 80
+
