@@ -1,36 +1,53 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: backend-api-user
   labels:
-    app: backend-api-user
+    service: backend-feed
+  name: backend-feed
 spec:
-  replicas: 1
+  replicas: 2
   selector:
     matchLabels:
-      app: backend-api-user
+      service: backend-feed
   template:
     metadata:
       labels:
-        app: backend-api-user
+        service: backend-feed
     spec:
       containers:
-      - image: mavis8d/udagram-api-user:v1
-        name: backend-api-user
-        imagePullPolicy: Always
+      - image: mavis8d/udagram-api-feed:v1 
+        name: backend-feed
+        ports:
+        - containerPort: 8080
+        imagePullPolicy: Always  
         resources:
           requests:
             memory: "64Mi"
             cpu: "250m"
           limits:
             memory: "1024Mi"
-            cpu: "500m"
+            cpu: "500m"                  
         env:
         - name: URL
           valueFrom:
             configMapKeyRef:
               name: env-config
               key: URL
+        - name: AWS_BUCKET
+          valueFrom:
+            configMapKeyRef:
+              name: env-config
+              key: AWS_BUCKET
+        - name: AWS_PROFILE
+          valueFrom:
+            configMapKeyRef:
+              name: env-config
+              key: AWS_PROFILE
+        - name: AWS_REGION
+          valueFrom:
+            configMapKeyRef:
+              name: env-config
+              key: AWS_REGION
         - name: JWT_SECRET
           valueFrom:
             configMapKeyRef:
@@ -55,6 +72,13 @@ spec:
           valueFrom:
             secretKeyRef:
               name: env-secret
-              key: POSTGRESS_USERNAME
+              key: POSTGRESS_USERNAME      
+        volumeMounts:
+        - name: aws-secret
+          mountPath: "/root/.aws/"
+          readOnly: true        
       restartPolicy: Always
-
+      volumes:
+      - name: aws-secret
+        secret:
+          secretName: aws-secret       

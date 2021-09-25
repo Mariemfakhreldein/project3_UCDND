@@ -5,20 +5,20 @@ metadata:
     service: frontend
   name: frontend
 spec:
+  replicas: 2
   selector:
     matchLabels:
       service: frontend
-  replicas: 1
   template:
     metadata:
       labels:
         service: frontend
-        api: external
+        api: external        
     spec:
       containers:
-      - image: mavis8d/udagram-frontend:local
+      - image: mavis8d/udagram-frontend:v1
         name: frontend
-        imagePullPolicy: Always
+        imagePullPolicy: Always        
         ports:
         - containerPort: 80
         resources:
@@ -27,5 +27,6 @@ spec:
             cpu: "250m"
           limits:
             memory: "1024Mi"
-            cpu: "500m"
+            cpu: "500m"                
       restartPolicy: Always
+

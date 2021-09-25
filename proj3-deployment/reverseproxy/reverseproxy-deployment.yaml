@@ -15,7 +15,7 @@ spec:
         service: reverseproxy
     spec:
       containers:
-      - image: mavis8d/udagram-reverseproxy
+      - image: mavis8d/udagram-reverseproxy:v1
         name: reverseproxy
         imagePullPolicy: Always
         resources:
@@ -28,4 +28,5 @@ spec:
         ports:
         - containerPort: 8080
       restartPolicy: Always
+
 
